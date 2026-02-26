@@ -1,0 +1,2 @@
+- [x] LGPL-3.0 included
+- [ ] GPL-3.0 full text included (replace placeholder)

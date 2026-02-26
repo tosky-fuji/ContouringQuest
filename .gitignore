@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# conda-pack 環境
+app_env/
+app_env.tar.gz
+
+# NIfTI データ（ユーザーが別途配置）
+nifti/*.nii.gz
+
+# 実行結果データ（個人情報を含む）
+records/csv/
+records/Group_*/
+records/*.gz
+records/nul
+
+# エディタ履歴
+.*.history/
+
+# Windows ショートカット（ネットワークパスを含む）
+コンツーリングクエスト/
+
+# Windows 誤作成ファイル
+nul
+
+# IDE / エディタ
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo

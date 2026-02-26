@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "image_shape": [
+    512,
+    512,
+    61
+  ],
+  "labels": [
+    {
+      "label": 1,
+      "name": "右腎",
+      "color": "#e6194b"
+    },
+    {
+      "label": 2,
+      "name": "胃",
+      "color": "#3cb44b"
+    },
+    {
+      "label": 3,
+      "name": "胆嚢",
+      "color": "#0082c8"
+    }
+  ],
+  "view_flips": {
+    "left_right": true,
+    "anterior_posterior": false,
+    "superior_inferior": false
+  }
+}

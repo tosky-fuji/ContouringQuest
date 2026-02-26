@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "image_shape": [
+    512,
+    512,
+    61
+  ],
+  "labels": [
+    {
+      "label": 1,
+      "name": "pancrease",
+      "color": "#e6194b"
+    }
+  ],
+  "view_flips": {
+    "left_right": true,
+    "anterior_posterior": false,
+    "superior_inferior": false
+  }
+}

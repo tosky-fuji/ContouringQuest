@@ -1,0 +1,21 @@
+Qt for Python / PySide6 & Shiboken6 NOTICE
+=================================================
+This application uses Qt for Python (PySide6 and Shiboken6),
+provided under GNU LGPL v3.0.
+
+Copyright (C) 2009-2025 The Qt Company Ltd.
+Copyright (C) 2011-2025 The Qt Project Authors.
+
+Dynamic Linking and Relinking
+-----------------------------
+This app uses PySide6/Shiboken6 as dynamically linked libraries.
+You may replace these with compatible versions to debug your modifications (LGPL-3.0 §§4(d)-(e)).
+
+Typical Conda env locations:
+  <env>\Lib\site-packages\PySide6\
+  <env>\Lib\site-packages\shiboken6\
+
+Licenses Included
+-----------------
+- LICENSES/LGPL-3.0.txt (verbatim)
+- LICENSES/GPL-3.0.txt  (placeholder — replace with full text before external distribution)
