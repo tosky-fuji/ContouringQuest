@@ -180,27 +180,6 @@ records/
 
 ---
 
-## tar.gz の作り方（配布パッケージ作成者向け）
-
-配布用の `app_env.tar.gz` を conda-pack で作成する手順です。
-
-```bat
-rem 1. conda 環境を作成
-conda create -n contouring python=3.11
-conda activate contouring
-
-rem 2. パッケージをインストール
-pip install -r requirements.txt
-
-rem 3. conda-pack でアーカイブ化
-conda install -c conda-forge conda-pack
-conda-pack -n contouring -o app_env.tar.gz
-```
-
-生成された `app_env.tar.gz` をプロジェクトルートに配置して zip で配布します。
-
----
-
 ## ライセンス
 
 本アプリケーションのソースコードは **MIT License** で公開されています。詳細は [LICENSE](LICENSE) を参照してください。
