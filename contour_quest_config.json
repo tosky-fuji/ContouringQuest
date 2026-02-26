@@ -1,17 +1,10 @@
 {
   "regions": {
-    "ふくぶ１": {
-      "rois": "右腎,胃,胆嚢",
-      "time_min": 15,
+    "使用例（削除してください）": {
+      "rois": "臓器1,臓器2",
+      "time_min": 10,
       "ct": "nifti/abdominal_ct.nii.gz",
-      "gt_label": "nifti/h1.nii.gz",
-      "outdir": "records"
-    },
-    "h2": {
-      "rois": "pancrease",
-      "time_min": 20,
-      "ct": "nifti/abdominal_ct.nii.gz",
-      "gt_label": "nifti/h2.nii.gz",
+      "gt_label": "nifti/sample.nii.gz",
       "outdir": "records"
     }
   },
