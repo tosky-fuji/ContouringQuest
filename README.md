@@ -34,17 +34,42 @@ Contouring_Quest/
 
 ## インストール方法
 
-配布された zip ファイルを任意のフォルダに展開し、`0_install.bat` をダブルクリックしてください。
+### 1. このリポジトリをダウンロードする
+
+画面上部の緑色の **「Code」** ボタン → **「Download ZIP」** をクリックし、
+ダウンロードした zip ファイルを任意のフォルダに展開します。
+
+### 2. Python 環境ファイルをダウンロードする
+
+アプリの実行には Python 環境（`app_env.tar.gz`）が必要です。
+以下のリンクからダウンロードしてください（約 380MB）。
+
+> **[Releases ページ](https://github.com/tosky-fuji/ContouringQuest/releases/latest)** → 「Assets」 → **`app_env.tar.gz`** をクリック
+
+ダウンロードした `app_env.tar.gz` を、展開したフォルダの **直下**（`run.bat` と同じ場所）に配置します。
+
+```
+ContouringQuest/          ← 展開したフォルダ
+├── app_env.tar.gz        ← ★ ここに配置
+├── app/
+├── 0_install.bat
+├── run.bat
+└── ...
+```
+
+### 3. インストールを実行する
+
+`0_install.bat` をダブルクリックします（3〜10 分程度かかります）。
 
 このスクリプトが行うこと:
-- `app_env.tar.gz` を `app_env/` に展開（3〜10 分程度）
-- `conda-unpack` でパスを修正
+- `app_env.tar.gz` を `app_env/` に展開
+- パスの修正（conda-unpack）
 - `records/` と `nifti/` ディレクトリの作成
 - デスクトップショートカットの作成
 
 > PC のシステムには何もインストールされません。フォルダ内に展開するのみです。
 
-### 起動
+### 4. 起動
 
 以下のいずれかで起動します:
 - デスクトップの **Contouring Quest** ショートカット
