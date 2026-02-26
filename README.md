@@ -34,69 +34,7 @@ Contouring_Quest/
 
 ## インストール方法
 
-### 方法 A: 自分で環境構築する場合（requirements.txt）
-
-Python 環境を自分で用意し、pip でパッケージをインストールします。
-
-#### 1. Python 3.11 のインストール
-
-以下のいずれかの方法で Python 3.11 を用意してください。
-
-**pip（venv）の場合:**
-
-```bat
-python -m venv contouring_env
-contouring_env\Scripts\activate
-```
-
-**conda の場合:**
-
-```bat
-conda create -n contouring python=3.11
-conda activate contouring
-```
-
-#### 2. 依存パッケージのインストール
-
-```bat
-pip install -r requirements.txt
-```
-
-`requirements.txt` の内容:
-
-| パッケージ | 用途 |
-|-----------|------|
-| PySide6 | GUI フレームワーク（Qt for Python） |
-| numpy | 数値計算 |
-| nibabel | NIfTI ファイル読み書き |
-| scipy | 画像処理（膨張処理等） |
-| scikit-image | 画像解析 |
-
-#### 3. NIfTI データの配置
-
-`nifti/` フォルダに CT 画像と正解ラベルを配置します（後述）。
-
-#### 4. 起動
-
-```bat
-cd Contouring_Quest
-python -m app
-```
-
----
-
-### 方法 B: 配布パッケージを使う場合（tar.gz）
-
-conda-pack で作成済みの Python 環境（`app_env.tar.gz`）を展開して使います。
-Python のインストールやパッケージ管理は不要です。
-
-#### 1. zip の展開
-
-配布された zip ファイルを任意のフォルダに展開します。
-
-#### 2. インストール（初回のみ）
-
-`0_install.bat` をダブルクリックします。
+配布された zip ファイルを任意のフォルダに展開し、`0_install.bat` をダブルクリックしてください。
 
 このスクリプトが行うこと:
 - `app_env.tar.gz` を `app_env/` に展開（3〜10 分程度）
@@ -104,20 +42,15 @@ Python のインストールやパッケージ管理は不要です。
 - `records/` と `nifti/` ディレクトリの作成
 - デスクトップショートカットの作成
 
-```
-展開後の app_env/ には Python 本体と全依存パッケージが含まれます。
-PC のシステムには何もインストールされません。
-```
+> PC のシステムには何もインストールされません。フォルダ内に展開するのみです。
 
-#### 3. NIfTI データの配置
-
-`nifti/` フォルダに CT 画像と正解ラベルを配置します（後述）。
-
-#### 4. 起動
+### 起動
 
 以下のいずれかで起動します:
 - デスクトップの **Contouring Quest** ショートカット
 - `run.bat` をダブルクリック
+
+> **補足:** Python 環境をお持ちの方は、`pip install -r requirements.txt` でパッケージを導入し `python -m app` で直接起動することもできます。
 
 ---
 
