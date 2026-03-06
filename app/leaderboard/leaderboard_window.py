@@ -58,12 +58,9 @@ class LeaderboardWindow(QMainWindow):
     # ---- 設定 I/O ----
 
     def _load_settings(self) -> Tuple[str, int]:
-        # このファイルの場所 → app/leaderboard/
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        # app/ ディレクトリ
-        app_dir = os.path.dirname(base_dir)
-        # プロジェクトルート
-        root_dir = os.path.dirname(app_dir)
+        from app.common.paths import get_project_root
+        root_dir = get_project_root()
+        app_dir = os.path.join(root_dir, "app")
 
         def root_records_abs() -> str:
             return os.path.abspath(os.path.join(root_dir, "records"))
@@ -102,8 +99,8 @@ class LeaderboardWindow(QMainWindow):
 
             return cand_abs
 
-        # 設定ファイル（app/leaderboard/leaderboard_settings.json）
-        settings_path = os.path.join(base_dir, SETTINGS_FILE)
+        # 設定ファイル（プロジェクトルート直下）
+        settings_path = os.path.join(root_dir, SETTINGS_FILE)
 
         if os.path.isfile(settings_path):
             try:
@@ -121,9 +118,9 @@ class LeaderboardWindow(QMainWindow):
         return rec, yr
 
     def _save_settings(self):
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        app_dir = os.path.dirname(base_dir)
-        root_dir = os.path.dirname(app_dir)
+        from app.common.paths import get_project_root
+        root_dir = get_project_root()
+        app_dir = os.path.join(root_dir, "app")
 
         def root_records_abs() -> str:
             return os.path.abspath(os.path.join(root_dir, "records"))
@@ -140,7 +137,7 @@ class LeaderboardWindow(QMainWindow):
                 return root_records_abs()
             return cand_abs
 
-        settings_path = os.path.join(base_dir, SETTINGS_FILE)
+        settings_path = os.path.join(root_dir, SETTINGS_FILE)
         cfg = {"records_dir": _normalize_out(self.records_dir), "year": int(self.year)}
         try:
             with open(settings_path, "w", encoding="utf-8") as f:
@@ -462,27 +459,14 @@ class LeaderboardWindow(QMainWindow):
         # データを保存（後でアニメーション表示）
         self._person_data = top_entrants
 
-        # 初期状態：空のモデルを作成
+        # 初期状態：空のモデルを作成（演出で後から埋める）
         model = QStandardItemModel(len(top_entrants), 3)
         model.setHorizontalHeaderLabels(["rank", "participant", "overall_pt"])
 
-        podium = [QColor("#FFD700"), QColor("#C0C0C0"), QColor("#CD7F32")]  # 金・銀・銅
-        for r, e in enumerate(top_entrants):
-            items = [
-                QStandardItem(str(r + 1)),
-                QStandardItem(e["participant"]),
-                QStandardItem(e["overall_pt"]),
-            ]
-            for it in items:
+        for r in range(len(top_entrants)):
+            for c in range(3):
+                it = QStandardItem("")
                 it.setEditable(False)
-                f = QFont("", 12)
-                f.setBold(True)
-                it.setFont(f)
-            for it in items:
-                it.setBackground(QBrush(podium[r]))
-            if r == 0:
-                items[1].setText(f"👑 {e['participant']}")
-            for c, it in enumerate(items):
                 model.setItem(r, c, it)
 
         self.tbl_person.setModel(model)
@@ -512,7 +496,16 @@ class LeaderboardWindow(QMainWindow):
         model = QStandardItemModel(len(rows), 3)
         model.setHorizontalHeaderLabels(["rank", "team", "avg_overall_pt"])
 
-        podium = [QColor("#FFD700"), QColor("#C0C0C0"), QColor("#CD7F32")]
+        podium_bg = [
+            QColor(255, 215, 0, 45),
+            QColor(192, 192, 192, 35),
+            QColor(205, 127, 50, 35),
+        ]
+        podium_fg = [
+            QColor(PODIUM_GOLD),
+            QColor(PODIUM_SILVER),
+            QColor(PODIUM_BRONZE),
+        ]
         for i, row in enumerate(rows):
             items = [
                 QStandardItem(str(i + 1)),
@@ -528,7 +521,8 @@ class LeaderboardWindow(QMainWindow):
 
             if i < 3:
                 for it in items:
-                    it.setBackground(QBrush(podium[i]))
+                    it.setForeground(QBrush(podium_fg[i]))
+                    it.setBackground(QBrush(podium_bg[i]))
                 if i == 0:
                     items[1].setText(f"👑 {row['team']}")
 
@@ -560,8 +554,18 @@ class LeaderboardWindow(QMainWindow):
         model = QStandardItemModel(len(rows), 4)
         model.setHorizontalHeaderLabels(["rank", "group", "members", "avg_overall_pt"])
 
-        podium = [QColor("#FFD700"), QColor("#C0C0C0"), QColor("#CD7F32")]
-        highlight_gold = QColor("#FFC107")
+        podium_bg = [
+            QColor(255, 215, 0, 45),
+            QColor(192, 192, 192, 35),
+            QColor(205, 127, 50, 35),
+        ]
+        podium_fg = [
+            QColor(PODIUM_GOLD),
+            QColor(PODIUM_SILVER),
+            QColor(PODIUM_BRONZE),
+        ]
+        highlight_bg = QColor(124, 92, 255, 50)  # PRIMARY_ACCENT 半透明
+        highlight_fg = QColor("#b8a0ff")
         tgt = (target_group or "").upper()
         tgt_rank_text = "対象班の順位: -"
 
@@ -582,14 +586,16 @@ class LeaderboardWindow(QMainWindow):
             # トップ3の色
             if i < 3:
                 for it in items:
-                    it.setBackground(QBrush(podium[i]))
+                    it.setForeground(QBrush(podium_fg[i]))
+                    it.setBackground(QBrush(podium_bg[i]))
                 if i == 0:
                     items[1].setText(f"🥇 {row['group']}")
 
             # 対象班の強調（上書き）
             if row["group"] == tgt:
                 for it in items:
-                    it.setBackground(QBrush(highlight_gold))
+                    it.setBackground(QBrush(highlight_bg))
+                    it.setForeground(QBrush(highlight_fg))
                     ff = it.font()
                     ff.setBold(True)
                     it.setFont(ff)
@@ -1012,7 +1018,11 @@ class LeaderboardWindow(QMainWindow):
         if not model:
             return
 
-        podium = [QColor("#FFD700"), QColor("#C0C0C0"), QColor("#CD7F32")]
+        podium = [
+            QColor(255, 215, 0, 45),
+            QColor(192, 192, 192, 35),
+            QColor(205, 127, 50, 35),
+        ]
 
         # 全行を一旦透明に
         for row in range(model.rowCount()):
@@ -1038,6 +1048,12 @@ class LeaderboardWindow(QMainWindow):
         if not model:
             return
 
+        podium_fg = [
+            QColor(PODIUM_GOLD),
+            QColor(PODIUM_SILVER),
+            QColor(PODIUM_BRONZE),
+        ]
+
         e = self._person_data[rank_idx]
 
         items = [
@@ -1051,6 +1067,7 @@ class LeaderboardWindow(QMainWindow):
             f = QFont("", 12)
             f.setBold(True)
             it.setFont(f)
+            it.setForeground(QBrush(podium_fg[rank_idx]))
             it.setBackground(QBrush(podium[rank_idx]))
 
         if rank_idx == 0:
@@ -1076,7 +1093,7 @@ class LeaderboardWindow(QMainWindow):
             if item:
                 original_colors.append(item.background())
 
-        highlight_color = QBrush(QColor("#FFEB3B"))
+        highlight_color = QBrush(QColor(124, 92, 255, 80))
         for col in range(model.columnCount()):
             item = model.item(row_idx, col)
             if item:
@@ -1100,8 +1117,8 @@ class LeaderboardWindow(QMainWindow):
         flash_style = f"""
             QWidget {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 {PRIMARY_ACCENT}, stop:0.5 {SECONDARY_ACCENT}, stop:1 {PRIMARY_ACCENT});
+                    stop:0 #1a1040, stop:0.5 #2a1860, stop:1 #1a1040);
             }}
         """
         central.setStyleSheet(flash_style)
-        QTimer.singleShot(300, lambda: central.setStyleSheet(original_style))
+        QTimer.singleShot(250, lambda: central.setStyleSheet(original_style))

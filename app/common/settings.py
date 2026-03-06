@@ -47,47 +47,22 @@ def load_settings() -> Dict[str, Any]:
             pass
 
         file_paths = (data.get("file_paths") or {})
-        nifti_dir = resolve_path(file_paths.get("nifti_dir", "./nifti"))
-        records_dir = resolve_path(file_paths.get("records_dir", "./records"))
-
-        def _first_exist(*paths) -> str:
-            for p in paths:
-                rp = resolve_path(p)
-                if rp and os.path.isfile(rp):
-                    return p
-            return ""
-
-        ct_rel = _first_exist(
-            os.path.join(nifti_dir, "abdominal_ct.nii.gz"),
-            os.path.join("nifti", "abdominal_ct.nii.gz")
-        )
-        gt_rel = _first_exist(
-            os.path.join(nifti_dir, "abdominal_label.nii.gz"),
-            os.path.join("nifti", "abdominal_label.nii.gz")
-        )
 
         data["regions"] = {
             "腹部1": {
                 "rois": "右腎,胃,胆嚢",
                 "time_min": 15,
-                "ct": ct_rel if ct_rel else "nifti/abdominal_ct.nii.gz",
-                "gt_label": gt_rel if gt_rel else "nifti/abdominal_label.nii.gz",
-                "outdir": file_paths.get("records_dir", "./records") or "./records",
+                "ct": "nifti/abdominal_ct.nii.gz",
+                "gt_label": "nifti/abdominal_ct_seg1.nii.gz",
+                "outdir": file_paths.get("records_dir", "records") or "records",
             },
             "腹部2": {
                 "rois": "左腎,脾臓,膀胱",
                 "time_min": 15,
-                "ct": ct_rel if ct_rel else "nifti/abdominal_ct.nii.gz",
-                "gt_label": gt_rel if gt_rel else "nifti/abdominal_label.nii.gz",
-                "outdir": file_paths.get("records_dir", "./records") or "./records",
+                "ct": "nifti/abdominal_ct.nii.gz",
+                "gt_label": "nifti/abdominal_ct_seg2.nii.gz",
+                "outdir": file_paths.get("records_dir", "records") or "records",
             },
-            "腹部3": {
-                "rois": "肝臓,膵臓",
-                "time_min": 20,
-                "ct": ct_rel if ct_rel else "nifti/abdominal_ct.nii.gz",
-                "gt_label": gt_rel if gt_rel else "nifti/abdominal_label.nii.gz",
-                "outdir": file_paths.get("records_dir", "./records") or "./records",
-            }
         }
 
     return data

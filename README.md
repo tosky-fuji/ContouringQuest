@@ -4,6 +4,8 @@ PySide6 ベースの医用画像コンツーリング教育アプリケーショ
 CT 画像上で ROI（関心領域）を描画し、正解データとの比較でスコアリングを行います。
 
 > **対応 OS:** Windows 11
+>
+> **ソースコード:** https://github.com/tosky-fuji/ContouringQuest
 
 ---
 
@@ -19,63 +21,27 @@ Contouring_Quest/
 │   ├── leaderboard/             … リーダーボード
 │   ├── review/                  … おさらい画面
 │   └── scoring/                 … スコアリング
-├── contour_quest_config.json    … 設定ファイル
+├── main.py                      … PyInstaller 用エントリポイント
+├── ContoringQuest.spec          … PyInstaller 設定ファイル
+├── contour_quest_config.json    … 設定ファイル（初回起動時に自動生成）
 ├── nifti/                       … CT・正解ラベル（NIfTI 形式）
 ├── records/                     … 実行結果の出力先
 │   └── csv/                     … スコア CSV
 ├── LICENSES/                    … ライセンス全文
 ├── NOTICES/                     … サードパーティ通知
-├── requirements.txt             … pip 依存パッケージ一覧
-├── 0_install.bat                … tar.gz 展開用インストーラー
-└── run.bat                      … アプリ起動スクリプト
+└── requirements.txt             … pip 依存パッケージ一覧
 ```
 
 ---
 
-## インストール方法
+## セットアップ（ソースから実行）
 
-### 1. このリポジトリをダウンロードする
+Python >= 3.11 が必要です。
 
-画面上部の緑色の **「Code」** ボタン → **「Download ZIP」** をクリックし、
-ダウンロードした zip ファイルを任意のフォルダに展開します。
-
-### 2. Python 環境ファイルをダウンロードする
-
-アプリの実行には Python 環境（`app_env.tar.gz`）が必要です。
-以下のリンクからダウンロードしてください（約 380MB）。
-
-> **[Releases ページ](https://github.com/tosky-fuji/ContouringQuest/releases/latest)** → 「Assets」 → **`app_env.tar.gz`** をクリック
-
-ダウンロードした `app_env.tar.gz` を、展開したフォルダの **直下**（`run.bat` と同じ場所）に配置します。
-
+```bash
+pip install -r requirements.txt
+python -m app
 ```
-ContouringQuest/          ← 展開したフォルダ
-├── app_env.tar.gz        ← ★ ここに配置
-├── app/
-├── 0_install.bat
-├── run.bat
-└── ...
-```
-
-### 3. インストールを実行する
-
-`0_install.bat` をダブルクリックします（3〜10 分程度かかります）。
-
-このスクリプトが行うこと:
-- `app_env.tar.gz` を `app_env/` に展開
-- パスの修正（conda-unpack）
-- `records/` と `nifti/` ディレクトリの作成
-- デスクトップショートカットの作成
-
-> PC のシステムには何もインストールされません。フォルダ内に展開するのみです。
-
-### 4. 起動
-
-以下のいずれかで起動します:
-- デスクトップの **Contouring Quest** ショートカット
-- `run.bat` をダブルクリック
-
-> **補足:** Python 環境をお持ちの方は、`pip install -r requirements.txt` でパッケージを導入し `python -m app` で直接起動することもできます。
 
 ---
 
@@ -90,7 +56,7 @@ NIfTI 形式（`.nii.gz`）の CT 画像を `nifti/` フォルダに配置しま
 
 ### 2. 設定画面を開く
 
-1. アプリを起動します（`run.bat` またはデスクトップショートカット）
+1. アプリを起動します
 2. ハブ画面の右上にある **「設定」** ボタンをクリック
 3. パスワード `kochi` を入力
 
@@ -155,9 +121,16 @@ records/
 
 ---
 
+## exe 配布（PyInstaller）
+
+PyInstaller で単一フォルダ形式の exe を生成できます。
+詳細は `ビルド関係/build_exe.bat` と `ContoringQuest.spec` を参照してください。
+
+---
+
 ## ライセンス
 
-本アプリケーションのソースコードは **MIT License** で公開されています。詳細は [LICENSE](LICENSE) を参照してください。
+本アプリケーションのソースコードは **MIT License** で公開されています。
 
 ### 使用ライブラリ
 
@@ -172,3 +145,11 @@ records/
 - 各ライブラリのライセンス全文は `LICENSES/` フォルダに同梱されています
 - PySide6 の LGPL 準拠情報は `NOTICES/Qt-For-Python-NOTICE.txt` を参照してください
 - PySide6 は動的リンクで使用しており、DLL の差し替えが可能です（LGPL-3.0 §4(d)-(e)）
+
+### 使用 CT データ
+
+本アプリケーションに含まれる CT 画像データは、**Medical Segmentation Decathlon** データセットから取得したものです。
+本 CT 画像データは **Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA 4.0)** ライセンスの下で提供されています。
+CT データの再配布には同一ライセンスの適用が必要です。
+
+> Antonelli, M., Reinke, A., Bakas, S. *et al.* The Medical Segmentation Decathlon. *Nat Commun* **13**, 4128 (2022). https://doi.org/10.1038/s41467-022-30695-9

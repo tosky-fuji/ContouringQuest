@@ -806,8 +806,8 @@ class ReviewMainWindow(QMainWindow):
         if getattr(self.current_group, "ct_path", None):
             ct_path = self.current_group.ct_path
             if not os.path.isabs(ct_path):
-                app_dir = os.path.dirname(os.path.abspath(__file__))
-                root_dir = os.path.abspath(os.path.join(app_dir, os.pardir, os.pardir))
+                from app.common.paths import get_project_root
+                root_dir = get_project_root()
                 ct_path = os.path.join(root_dir, ct_path.replace("/", os.sep).replace("\\", os.sep))
             if os.path.exists(ct_path):
                 ct_nii = nib.load(ct_path)
@@ -843,8 +843,8 @@ class ReviewMainWindow(QMainWindow):
 
         if gt_path:
             if not os.path.isabs(gt_path):
-                app_dir = os.path.dirname(os.path.abspath(__file__))
-                root_dir = os.path.abspath(os.path.join(app_dir, os.pardir, os.pardir))
+                from app.common.paths import get_project_root
+                root_dir = get_project_root()
                 gt_path = os.path.join(root_dir, gt_path.replace("/", os.sep).replace("\\", os.sep))
             if os.path.exists(gt_path):
                 gt_nii = nib.load(gt_path)

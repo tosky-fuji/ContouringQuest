@@ -2,17 +2,25 @@
 """パス解決ユーティリティ"""
 
 import os
+import sys
 from pathlib import Path
 
 
 def get_project_root() -> str:
     """プロジェクトルート（app/ の親ディレクトリ）を返す"""
+    if getattr(sys, 'frozen', False):
+        # PyInstaller frozen: exe の親ディレクトリ = プロジェクトルート
+        return os.path.dirname(sys.executable)
+    # 通常実行: app/common/paths.py → common/ → app/ → project_root
     app_dir = os.path.dirname(os.path.abspath(__file__))  # common/
     return os.path.abspath(os.path.join(app_dir, os.pardir, os.pardir))
 
 
 def get_app_dir() -> str:
     """app/ ディレクトリの絶対パスを返す"""
+    if getattr(sys, 'frozen', False):
+        # frozen 時は _internal 内に app パッケージが配置される
+        return os.path.join(sys._MEIPASS, 'app')
     return os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 
 

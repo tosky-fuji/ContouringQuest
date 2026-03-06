@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Signal
 
-from app.common.paths import resolve_path, make_relative_path
+from app.common.paths import resolve_path, make_relative_path, get_project_root
 from app.common.settings import load_settings, save_settings, fiscal_year_default
 from app.common.styles import BASE_STYLESHEET, btn_style
 
@@ -241,7 +241,7 @@ class SettingsDialog(QDialog):
 
     def _choose_ct(self):
         # デフォルトディレクトリを root/nifti に設定
-        default_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "nifti")
+        default_dir = os.path.join(get_project_root(), "nifti")
         if not os.path.exists(default_dir):
             default_dir = ""
         path, _ = QFileDialog.getOpenFileName(self, "CT NIfTI を選択", default_dir, "NIfTI (*.nii *.nii.gz)")
@@ -250,7 +250,7 @@ class SettingsDialog(QDialog):
 
     def _choose_gt(self):
         # デフォルトディレクトリを root/nifti に設定
-        default_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "nifti")
+        default_dir = os.path.join(get_project_root(), "nifti")
         if not os.path.exists(default_dir):
             default_dir = ""
         path, _ = QFileDialog.getOpenFileName(self, "正解ラベル NIfTI を選択", default_dir, "NIfTI (*.nii *.nii.gz)")

@@ -3,12 +3,27 @@ __pycache__/
 *.pyc
 *.pyo
 
-# conda-pack 環境
-app_env/
-app_env.tar.gz
+# PyInstaller ビルド
+build/
+dist/
+build_env/
+*.spec.bak
 
-# NIfTI データ（ユーザーが別途配置）
-nifti/*.nii.gz
+# ビルド用 conda env (ローカル)
+cq_build/
+
+# ビルド関係（bat, dist, icon等）
+ビルド関係/
+app_icon.ico
+
+# 使用方法動画（大容量）
+使用方法動画/
+
+# NIfTI データ（CT画像・ラベル、ユーザーが別途配置）
+nifti/
+
+# 設定ファイル（初回起動時に自動生成）
+contour_quest_config.json
 
 # 実行結果データ（個人情報を含む）
 records/csv/
@@ -18,9 +33,6 @@ records/nul
 
 # エディタ履歴
 .*.history/
-
-# Windows ショートカット（ネットワークパスを含む）
-コンツーリングクエスト/
 
 # Windows 誤作成ファイル
 nul

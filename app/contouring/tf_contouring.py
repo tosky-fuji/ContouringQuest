@@ -8,7 +8,7 @@ from collections import deque
 from typing import Optional, Dict, Tuple, List
 from dataclasses import dataclass
 
-from app.common.paths import make_relative_path
+from app.common.paths import make_relative_path, get_project_root
 
 # デバッグログの有効/無効（必要な時はTrueに変更）
 DEBUG = False
@@ -49,7 +49,7 @@ class TutorialOverlay(QWidget):
         self.setStyleSheet("QWidget { background-color: rgba(0, 0, 0, 0); }")
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setContentsMargins(4, 4, 4, 4)
         layout.setSpacing(0)
 
         # 指示パネル（デフォルト: 緑色＝操作待ち状態）
@@ -57,8 +57,8 @@ class TutorialOverlay(QWidget):
         self._set_panel_style("green")
 
         panel_layout = QVBoxLayout(self.instruction_panel)
-        panel_layout.setContentsMargins(20, 18, 20, 14)
-        panel_layout.setSpacing(8)
+        panel_layout.setContentsMargins(14, 10, 14, 8)
+        panel_layout.setSpacing(6)
 
         # 統合テキストラベル（ステップ番号 + タイトル + 詳細を1つのボックスに）
         self.content_label = QLabel()
@@ -141,7 +141,7 @@ class TutorialOverlay(QWidget):
         stops = self._PANEL_STYLES.get(color_key, self._PANEL_STYLES["green"])
         self.instruction_panel.setStyleSheet(
             f"QFrame {{ background: qlineargradient(x1:0,y1:0,x2:1,y2:0,{stops});"
-            "  border: 3px solid rgba(255,255,255,200); border-radius: 15px; padding: 10px; }"
+            "  border: 3px solid rgba(255,255,255,200); border-radius: 12px; padding: 4px; }"
         )
 
     def _build_content_html(self, step_text, title, detail):
@@ -281,7 +281,7 @@ class TutorialOverlay(QWidget):
         from PySide6.QtGui import QRegion, QPainterPath
         panel_rect = self.instruction_panel.geometry()
         path = QPainterPath()
-        path.addRoundedRect(QRectF(panel_rect), 15, 15)
+        path.addRoundedRect(QRectF(panel_rect), 12, 12)
         region = QRegion(path.toFillPolygon().toPolygon())
         self.setMask(region)
 
@@ -456,7 +456,7 @@ class InteractiveTutorialManager(QObject):
             self.overlay.raise_()
             self.overlay.show()
 
-            default_x, default_y, default_w, default_h = 10, 10, 600, 280
+            default_x, default_y, default_w, default_h = 377, 10, 600, 308
             if self.config_manager:
                 ts = self.config_manager.config.get('tutorial_settings', {})
                 x = ts.get('overlay_x', default_x)
@@ -4434,7 +4434,7 @@ class SimpleNiftiContouringApp(QMainWindow):
         if cfg and cfg.out_dir:
             out_dir = cfg.out_dir
         else:
-            base_dir = os.path.dirname(cfg.ct_path) if (cfg and cfg.ct_path) else os.getcwd()
+            base_dir = os.path.dirname(cfg.ct_path) if (cfg and cfg.ct_path) else get_project_root()
             out_dir = os.path.join(base_dir, "game_results")
         os.makedirs(out_dir, exist_ok=True)
 

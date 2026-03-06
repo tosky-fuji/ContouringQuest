@@ -6,14 +6,19 @@ provided under GNU LGPL v3.0.
 Copyright (C) 2009-2025 The Qt Company Ltd.
 Copyright (C) 2011-2025 The Qt Project Authors.
 
+Source Code
+-----------
+The complete source code for this application is available at:
+  https://github.com/tosky-fuji/ContouringQuest
+
 Dynamic Linking and Relinking
 -----------------------------
 This app uses PySide6/Shiboken6 as dynamically linked libraries.
 You may replace these with compatible versions to debug your modifications (LGPL-3.0 §§4(d)-(e)).
 
-Typical Conda env locations:
-  <env>\Lib\site-packages\PySide6\
-  <env>\Lib\site-packages\shiboken6\
+In the exe distribution, PySide6/Shiboken6 DLLs are located in:
+  _internal\PySide6\
+  _internal\shiboken6\
 
 Licenses Included
 -----------------

@@ -1,0 +1,20 @@
+CT Image Data NOTICE
+====================
+The CT image data included in this application is obtained from the
+Medical Segmentation Decathlon dataset.
+
+License: Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA 4.0)
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Redistribution of CT data requires application of the same license.
+
+Citation
+--------
+Antonelli, M., Reinke, A., Bakas, S. et al.
+The Medical Segmentation Decathlon.
+Nat Commun 13, 4128 (2022).
+https://doi.org/10.1038/s41467-022-30695-9
+
+Dataset
+-------
+http://medicaldecathlon.com/
