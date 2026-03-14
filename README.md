@@ -5,6 +5,8 @@ CT 画像上で ROI（関心領域）を描画し、正解データとの比較�
 
 > **対応 OS:** Windows 11
 >
+> **ダウンロード:** https://toshi-lab.sakura.ne.jp/apps/contouring-quest/
+>
 > **ソースコード:** https://github.com/tosky-fuji/ContouringQuest
 
 ---
@@ -118,9 +120,9 @@ records/
 
 ---
 
-## exe 配布（PyInstaller）
+## exe ビルド（参考）
 
-PyInstaller で単一フォルダ形式の exe を生成できます。
+PyInstaller で単一フォルダ形式の exe を生成することも可能です。
 詳細は `ビルド関係/build_exe.bat` と `ContoringQuest.spec` を参照してください。
 
 ---

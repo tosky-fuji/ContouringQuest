@@ -16,6 +16,12 @@ cq_build/
 ビルド関係/
 app_icon.ico
 
+# conda-pack 配布用
+conda_env.tar.gz
+conda_env/
+0_install.bat
+1_run.bat
+
 # 使用方法動画（大容量）
 使用方法動画/
 
